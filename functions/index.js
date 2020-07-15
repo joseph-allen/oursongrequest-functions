@@ -26,10 +26,16 @@ app.get("/helloWorld", (request, response) => {
 
 app.post("/signup", (req, res) => {
   const newUser = {
+    stagename: req.body.stageName,
+    name: req.body.name,
+    sociallink: req.body.socialLink,
+    handle: req.body.stageName
+      .split(" ")
+      .map((x) => x[0].toUpperCase() + x.substring(1))
+      .join(""),
     email: req.body.email,
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
-    handle: req.body.handle,
   };
 
   //   TODO: validate data
@@ -52,6 +58,9 @@ app.post("/signup", (req, res) => {
     .then((idToken) => {
       token = idToken;
       const userCredentials = {
+        stagename: newUser.stagename,
+        name: newUser.name,
+        sociallink: newUser.sociallink,
         handle: newUser.handle,
         email: newUser.email,
         createdAt: new Date().toISOString(),
