@@ -2,5 +2,8 @@
   "name": "oursongrequest-functions",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "firebase": "^7.16.0"
+  }
 }
