@@ -35,7 +35,7 @@ app.post("/signup", (req, res) => {
       .split(" ")
       .map((x) => x[0].toUpperCase() + x.substring(1))
       .join(""),
-    mobile: req.body.mobile,
+    phone: req.body.phone,
     email: req.body.email,
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
@@ -65,7 +65,7 @@ app.post("/signup", (req, res) => {
         name: newUser.name,
         sociallink: newUser.sociallink,
         handle: newUser.handle,
-        mobile: newUser.mobile,
+        phone: newUser.phone,
         email: newUser.email,
         createdAt: new Date().toISOString(),
         userId,
