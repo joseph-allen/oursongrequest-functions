@@ -1,9 +1,9 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const express = require("express");
-const cors = require("cors")({ origin: true });
+const cors = require("cors");
 const app = express();
-app.use(cors());
+app.use(cors({ origin: true }));
 const firebase = require("firebase");
 
 admin.initializeApp();
@@ -35,6 +35,7 @@ app.post("/signup", (req, res) => {
       .split(" ")
       .map((x) => x[0].toUpperCase() + x.substring(1))
       .join(""),
+    mobile: req.body.mobile,
     email: req.body.email,
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
@@ -64,6 +65,7 @@ app.post("/signup", (req, res) => {
         name: newUser.name,
         sociallink: newUser.sociallink,
         handle: newUser.handle,
+        mobile: newUser.mobile,
         email: newUser.email,
         createdAt: new Date().toISOString(),
         userId,
