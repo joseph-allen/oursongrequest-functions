@@ -30,7 +30,6 @@ app.post("/signup", (req, res) => {
   const newUser = {
     stagename: req.body.stageName,
     name: req.body.name,
-    sociallink: req.body.socialLink,
     handle: req.body.stageName
       .split(" ")
       .map((x) => x[0].toUpperCase() + x.substring(1))
@@ -63,7 +62,6 @@ app.post("/signup", (req, res) => {
       const userCredentials = {
         stagename: newUser.stagename,
         name: newUser.name,
-        sociallink: newUser.sociallink,
         handle: newUser.handle,
         phone: newUser.phone,
         email: newUser.email,

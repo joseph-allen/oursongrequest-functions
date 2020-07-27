@@ -6,7 +6,6 @@ let db = {
       handle: "Joe&TheTests",
       name: "Joe Allen",
       phone: "07871556663",
-      sociallink: "Twitter.com/joe&theTests",
       stagename: "Joe & the Tests",
       userId: "Bljhf99YXbgI5vLmmIg5MdSl3rq1",
     },
@@ -17,7 +16,6 @@ let db = {
 let signUpReq = {
   stageName: "Joe & the Tests",
   name: "Joe Allen",
-  socialLink: "Twitter.com/joe&theTests",
   phone: "07871556663",
   email: "joeandthetests@band.com",
   password: "123456",
