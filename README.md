@@ -18,6 +18,10 @@ deploy functions using `firebase deploy`
 
 a GET request made here will return a helloWorld string
 
+## /users/:handle
+
+GET a user data by handle
+
 ## /signUp
 
 a POST request made here with an example body of:
