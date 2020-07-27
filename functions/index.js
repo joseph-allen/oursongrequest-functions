@@ -22,8 +22,30 @@ firebase.initializeApp(config);
 
 const db = admin.firestore();
 
-app.get("/helloWorld", (request, response) => {
-  response.send("Hello from Firebase!");
+app.get("/helloWorld", (req, res) => {
+  res.send("Hello from Firebase!");
+});
+
+app.get("/users/:handle", (req, res) => {
+  let userData = {};
+
+  db.doc(`/users/${req.params.handle}`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        userData = doc.data();
+        return db.collection("users").get();
+      } else {
+        return "error";
+      }
+    })
+    .then(() => {
+      return res.json(userData);
+    })
+    .catch((err) => {
+      console.error(err);
+      return res.json(500).json({ error: err.code });
+    });
 });
 
 app.post("/signup", (req, res) => {
@@ -68,6 +90,10 @@ app.post("/signup", (req, res) => {
         createdAt: new Date().toISOString(),
         userId,
       };
+
+      // sign in user and send email
+      // firebase.auth().currentUser.sendEmailVerification();
+
       return db.doc(`/users/${newUser.handle}`).set(userCredentials);
     })
     .then(() => {
