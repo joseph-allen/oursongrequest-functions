@@ -22,6 +22,10 @@ a GET request made here will return a helloWorld string
 
 GET a user data by handle
 
+## /login
+
+a POST request with an email and password
+
 ## /signUp
 
 a POST request made here with an example body of:

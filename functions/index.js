@@ -48,6 +48,32 @@ app.get("/users/:handle", (req, res) => {
     });
 });
 
+app.post("/login", (req, res) => {
+  const userData = {
+    email: req.body.email,
+    password: req.body.password,
+  };
+
+  firebase
+    .auth()
+    .signInWithEmailAndPassword(userData.email, userData.password)
+    .then((data) => {
+      return data.user.getIdToken();
+    })
+    .then((token) => {
+      return res.json({ token });
+    })
+    .catch((error) => {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+
+      console.error(errorMessage);
+
+      return res.status(500).json({ error: errorCode });
+    });
+});
+
 app.post("/signup", (req, res) => {
   const newUser = {
     stagename: req.body.stageName,
@@ -90,9 +116,6 @@ app.post("/signup", (req, res) => {
         createdAt: new Date().toISOString(),
         userId,
       };
-
-      // sign in user and send email
-      // firebase.auth().currentUser.sendEmailVerification();
 
       return db.doc(`/users/${newUser.handle}`).set(userCredentials);
     })
