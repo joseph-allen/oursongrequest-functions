@@ -22,8 +22,32 @@ firebase.initializeApp(config);
 
 const db = admin.firestore();
 
-app.get("/helloWorld", (req, res) => {
-  res.send("Hello from Firebase!");
+app.post("/users/:handle", (req, res) => {
+  const userData = {
+    profilePicture: req.body.profilePicture,
+    videoURL: req.body.videoURL,
+    genres: req.body.genres,
+    bio: req.body.bio,
+    videoPrice: req.body.videoPrice,
+    videoResponseTime: req.body.videoResponseTime,
+  };
+
+  // Remove undefined keys
+  Object.keys(userData).forEach((key) =>
+    userData[key] === undefined ? delete userData[key] : {}
+  );
+
+  // TODO: make sure request are authenticated  from a logged in user
+
+  db.doc(`/users/${req.params.handle}`)
+    .update(userData)
+    .then(() => {
+      return res.json(200).json({ message: userData });
+    })
+    .catch((err) => {
+      console.error(err);
+      return res.json(500).json({ error: err.code });
+    });
 });
 
 app.get("/users/:handle", (req, res) => {
