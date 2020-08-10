@@ -30,6 +30,7 @@ app.post("/users/:handle", (req, res) => {
     bio: req.body.bio,
     videoPrice: req.body.videoPrice,
     videoResponseTime: req.body.videoResponseTime,
+    isPublic: req.body.isPublic,
   };
 
   // Remove undefined keys
@@ -110,6 +111,7 @@ app.post("/signup", (req, res) => {
     email: req.body.email,
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
+    isPublic: false,
   };
 
   //   TODO: validate data
