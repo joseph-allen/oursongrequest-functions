@@ -99,6 +99,21 @@ app.post("/login", (req, res) => {
     });
 });
 
+// Get Handle from ID
+app.get("/getUserHandle/:ID", (req, res) => {
+  db.collection("users")
+    .where("userId", "==", `${req.params.ID}`)
+    .get()
+    .then((docs) => {
+      docs.forEach((doc) => {
+        return res.status(200).json({ handle: doc.data()["handle"] });
+      });
+
+      return res.status(400).json({ handle: "not found" });
+    })
+    .catch((error) => console.log(error));
+});
+
 app.post("/signup", (req, res) => {
   const newUser = {
     stagename: req.body.stageName,
