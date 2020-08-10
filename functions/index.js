@@ -111,7 +111,6 @@ app.post("/signup", (req, res) => {
     email: req.body.email,
     password: req.body.password,
     confirmPassword: req.body.confirmPassword,
-    isPublic: false,
   };
 
   //   TODO: validate data
@@ -140,6 +139,7 @@ app.post("/signup", (req, res) => {
         phone: newUser.phone,
         email: newUser.email,
         createdAt: new Date().toISOString(),
+        isPublic: false,
         userId,
       };
 
