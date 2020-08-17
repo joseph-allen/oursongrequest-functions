@@ -173,4 +173,52 @@ app.post("/signup", (req, res) => {
     });
 });
 
+app.post("/createUser", (req, res) => {
+  const newUser = {
+    stagename: req.body.stageName,
+    name: req.body.name,
+    handle: req.body.stageName
+      .split(" ")
+      .map((x) => x[0].toUpperCase() + x.substring(1))
+      .join(""),
+    phone: req.body.phone,
+    email: req.body.email,
+    userId: req.body.userId,
+  };
+
+  db.doc(`/users/${newUser.handle}`)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        return res.status(400).json({ handle: "this handle is already taken" });
+      }
+      return res.status(200).json({ success: "account created" });
+    })
+    .then(() => {
+      const userCredentials = {
+        stagename: newUser.stagename,
+        name: newUser.name,
+        handle: newUser.handle,
+        phone: newUser.phone,
+        email: newUser.email,
+        createdAt: new Date().toISOString(),
+        isPublic: false,
+        userId: newUser.userId,
+      };
+
+      return db.doc(`/users/${newUser.handle}`).set(userCredentials);
+    })
+    .then(() => {
+      return res.status(201).json({ token });
+    })
+    .catch((err) => {
+      console.error(err);
+      if (err.code === "auth/email-already-in-use") {
+        return res.status(400).json({ email: "Email is already in use" });
+      } else {
+        return res.status(500).json({ error: err.code });
+      }
+    });
+});
+
 exports.api = functions.region("europe-west1").https.onRequest(app);
