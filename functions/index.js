@@ -153,6 +153,10 @@ app.post("/signup", (req, res) => {
         handle: newUser.handle,
         phone: newUser.phone,
         email: newUser.email,
+        genres: "placeholderTag1, Tag2, Tag3",
+        bio: "placeholder Bio",
+        videoPrice: "50",
+        videoResponseTime: "8",
         createdAt: new Date().toISOString(),
         isPublic: false,
         userId,
@@ -184,6 +188,7 @@ app.post("/createUser", (req, res) => {
     phone: req.body.phone,
     email: req.body.email,
     userId: req.body.userId,
+    profilePicture: req.body.profilePicture,
   };
 
   db.doc(`/users/${newUser.handle}`)
@@ -201,14 +206,47 @@ app.post("/createUser", (req, res) => {
         handle: newUser.handle,
         phone: newUser.phone,
         email: newUser.email,
+        genres: "placeholderTag1, Tag2, Tag3",
+        bio: "placeholder Bio",
+        videoPrice: "50",
+        videoResponseTime: "8",
         createdAt: new Date().toISOString(),
         isPublic: false,
         userId: newUser.userId,
+        profilePicture: newUser.profilePicture,
       };
 
       return db.doc(`/users/${newUser.handle}`).set(userCredentials);
     })
     .then(() => {
+      return res.status(201).json({ token });
+    })
+    .catch((err) => {
+      console.error(err);
+      if (err.code === "auth/email-already-in-use") {
+        return res.status(400).json({ email: "Email is already in use" });
+      } else {
+        return res.status(500).json({ error: err.code });
+      }
+    });
+});
+
+app.post("/signupCustomer", (req, res) => {
+  const newUser = {
+    email: req.body.email,
+    password: req.body.password,
+    confirmPassword: req.body.confirmPassword,
+  };
+
+  //   TODO: validate data
+  firebase
+    .auth()
+    .createUserWithEmailAndPassword(newUser.email, newUser.password)
+    .then((data) => {
+      userId = data.user.uid;
+      return data.user.getIdToken();
+    })
+    .then((token) => {
       return res.status(201).json({ token });
     })
     .catch((err) => {
