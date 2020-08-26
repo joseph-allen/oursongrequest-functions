@@ -14,10 +14,6 @@ deploy functions using `firebase deploy`
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/65dbfa745002e5881a11)
 
-## /helloWorld
-
-a GET request made here will return a helloWorld string
-
 ## /users/:handle
 
 GET a user data by handle
@@ -54,3 +50,20 @@ will add the following to the user DB, and create a user:
       userId: "Bljhf99YXbgI5vLmmIg5MdSl3rq1", //To access the user from friebase
     },
 ```
+
+It also adds the following Artist Data:
+```
+        genres: "placeholderTag1, Tag2, Tag3",
+        bio: "placeholder Bio",
+        videoPrice: "50",
+        videoResponseTime: "8",
+        createdAt: new Date().toISOString(),
+        isPublic: false,
+```
+
+
+## /createUser
+Route for creating a user that is already signed up, for example if a user registers through Facebook they are already authorized, but we still need to generate their artist data.
+
+## /signupCustomer
+Customers do not need any Artist data stored when they sign up, we just need to check their inputs are valid, valid email and passwords for example.
